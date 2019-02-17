@@ -1,0 +1,7 @@
+.list-item {
+    @include flex-center;
+
+    &__element {
+        margin-right: 2rem;
+    }
+}

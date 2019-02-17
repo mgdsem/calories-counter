@@ -84,23 +84,29 @@ class Counter extends Component {
     render() {
         return (
             <div className="counter">
-                <Input
-                    type="text"
-                    id="foodInput"
-                    value={this.state.currentFoodInputValue}
-                    placeholder="Tell me what U have just eaten man"
-                    onChange={this.onFoodInputChange}
-                />
+                <div className="counter__form">
+                    <div className="counter__input">
+                        <Input
+                            type="text"
+                            id="foodInput"
+                            value={this.state.currentFoodInputValue}
+                            placeholder="Tell me what U have just eaten man"
+                            onChange={this.onFoodInputChange}
+                        />
+                    </div>
 
-                <Input
-                    type="number"
-                    id="calInput"
-                    value={this.state.currentCaloriesInputValue}
-                    placeholder="nb of calories"
-                    onChange={this.onCalInputChange}
-                />
+                    <div className="counter__input">
+                        <Input
+                            type="number"
+                            id="calInput"
+                            value={this.state.currentCaloriesInputValue}
+                            placeholder="nb of calories"
+                            onChange={this.onCalInputChange}
+                        />
+                    </div>
 
-                <Button onClick={this.onAddFoodItem}>Add</Button>
+                    <Button onClick={this.onAddFoodItem}>Add</Button>
+                </div>
 
                 <FoodsList foods={this.state.foods} removeFoodItem={this.onRemoveFoodItem} />
             </div>

@@ -1,4 +1,15 @@
 .counter {
     background-color: $blue;
     height: 100vh;
+
+    &__form {
+        @include flex-center();
+
+        margin-bottom: 2rem;
+        padding-top: 2rem;
+    }
+
+    &__input {
+        margin-right: 2rem;
+    }
 }
