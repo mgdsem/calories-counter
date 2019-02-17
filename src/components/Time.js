@@ -4,18 +4,27 @@ import moment from 'moment';
 class Time extends Component {
     constructor(props) {
         super(props);
+
+        this.getCurrentTime = this.getCurrentTime.bind(this);
+
+        this.intervalId = null;
+
         this.state = {
             currentTime: moment().format("HH:mm:ss"),
-        }
-        this.getCurrentTime = this.getCurrentTime.bind(this)
+        };
     }
+
     componentDidMount() {
         this.getCurrentTime();
-        setInterval(this.getCurrentTime, 1000);
+        this.intervalId = setInterval(this.getCurrentTime, 1000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.intervalId);
     }
 
     getCurrentTime() {
-        this.setState({ currentTime: moment().format("HH:mm:ss") })
+        this.setState({ currentTime: moment().format("HH:mm:ss") });
     }
 
     render() {
@@ -24,7 +33,7 @@ class Time extends Component {
                 <p>{moment().format("MMM Do YY")}</p>
                 <p>{this.state.currentTime}</p>
             </div>
-        )
+        );
     }
 }
 

@@ -1,5 +1,5 @@
 .header {
-@include flex-center();
+    @include flex-center();
 
     background-color: $yellow;
     color: $green;

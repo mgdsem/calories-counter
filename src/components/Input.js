@@ -18,7 +18,6 @@ const Input = ({
                 value={value}
                 onChange={onChange}
             />
-
         </div>
     )
 

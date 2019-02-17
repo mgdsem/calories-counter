@@ -18,7 +18,7 @@ class Counter extends Component {
 
         this.state = {
             currentFoodInputValue: '',
-            currentCalInputValue: '',
+            currentCaloriesInputValue: '',
             foods: []
         };
     };
@@ -27,6 +27,7 @@ class Counter extends Component {
         if (localStorage) {
             const savedFoods = localStorage.getItem('foods');
             const parsedFoods = JSON.parse(savedFoods);
+
             if (parsedFoods) {
                 this.setState({ foods: parsedFoods });
             }
@@ -34,20 +35,16 @@ class Counter extends Component {
     }
 
     onFoodInputChange(e) {
-        console.log(e.target.value);
-
         this.setState({ currentFoodInputValue: e.target.value });
     }
 
     onCalInputChange(e) {
-        console.log(e.target.value);
-
-        this.setState({ currentCalInputValue: e.target.value });
+        this.setState({ currentCaloriesInputValue: e.target.value });
     }
 
-    onAddFoodItem(e) {
+    onAddFoodItem() {
         const newFoodItem = {
-            text: `${this.state.currentFoodInputValue} - ${this.state.currentCalInputValue}`,
+            text: `${this.state.currentFoodInputValue} - ${this.state.currentCaloriesInputValue}`,
             id: uuid(),
             createdAt: moment(),
         }
@@ -55,6 +52,7 @@ class Counter extends Component {
         this.setState(prevState => {
             const newFoods = [...prevState.foods, newFoodItem];
             const parsedFoods = JSON.stringify(newFoods);
+
             if (localStorage) {
                 localStorage.setItem('foods', parsedFoods);
             };
@@ -62,36 +60,21 @@ class Counter extends Component {
             return {
                 foods: newFoods,
                 currentFoodInputValue: '',
-                currentCalInputValue: ''
+                currentCaloriesInputValue: ''
             };
         });
     };
 
-    // onRemoveItem(id) {
-    //     console.log(id);
-    //     this.setState(prevState => {
-    //         const newTodos = prevState.todos.filter(todo => {
-    //             return id !== todo.id;
-    //         })
-    //         const parsedTodos = JSON.stringify(newTodos);
-    //         if (localStorage) {
-    //             localStorage.setItem('todos', parsedTodos);
-    //         }
-    //         return {
-    //             todos: newTodos,
-    //         }
-    //     })
-    // }
-
     onRemoveFoodItem(id) {
         this.setState(prevState => {
-            const newFoods = prevState.foods.filter(food => {
-                return id !== food.id;
-            })
+            const newFoods = prevState.foods.filter(food => id !== food.id);
+
             const parsedFoods = JSON.stringify(newFoods);
+
             if (localStorage) {
                 localStorage.setItem('foods', parsedFoods);
             }
+
             return {
                 foods: newFoods
             };
@@ -112,7 +95,7 @@ class Counter extends Component {
                 <Input
                     type="number"
                     id="calInput"
-                    value={this.state.currentCalInputValue}
+                    value={this.state.currentCaloriesInputValue}
                     placeholder="nb of calories"
                     onChange={this.onCalInputChange}
                 />
@@ -120,7 +103,6 @@ class Counter extends Component {
                 <Button onClick={this.onAddFoodItem}>Add</Button>
 
                 <FoodsList foods={this.state.foods} removeFoodItem={this.onRemoveFoodItem} />
-
             </div>
         );
     }
