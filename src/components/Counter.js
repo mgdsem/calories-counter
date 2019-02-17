@@ -44,7 +44,8 @@ class Counter extends Component {
 
     onAddFoodItem() {
         const newFoodItem = {
-            text: `${this.state.currentFoodInputValue} - ${this.state.currentCaloriesInputValue}`,
+            text: `${this.state.currentFoodInputValue} - ${this.state.currentCaloriesInputValue} kcal`,
+            calories: this.state.currentCaloriesInputValue,
             id: uuid(),
             createdAt: moment(),
         }

@@ -5,11 +5,17 @@ const FoodsList = ({
     foods,
     removeFoodItem
 }) => (
-        <ul>
-            {foods.map(food => (
-                <FoodListItem key={food.id} text={food.text} removeFoodItem={removeFoodItem} id={food.id} />
-            ))}
-        </ul>
+        <div>
+            <ul>
+                {foods.map(food => (
+                    <FoodListItem key={food.id} text={food.text} removeFoodItem={removeFoodItem} id={food.id} />
+                ))}
+            </ul>
+
+            <p className="list__display-sum">
+                {`${foods.reduce((acc, currentValue) => Number(acc) + Number(currentValue.calories), 0)} kcal`}
+            </p>
+        </div>
     );
 
 export default FoodsList;
