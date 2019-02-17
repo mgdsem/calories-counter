@@ -1,0 +1,14 @@
+.list-item {
+    @include flex-center;
+
+    &__element {
+        margin-right: 2rem;
+    }
+}
+
+.list {
+    &__display-sum {
+        text-align: center;
+        margin-top: 2rem;
+    }
+}

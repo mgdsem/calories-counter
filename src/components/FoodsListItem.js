@@ -7,8 +7,8 @@ const FoodListItem = ({
     removeFoodItem,
     id
 }) => (
-        <div>
-            <li>{text}</li>
+        <div className="list-item">
+            <li className="list-item__element">{text}</li>
             <Button onClick={() => removeFoodItem(id)}>Remove</Button>
         </div>
     );
