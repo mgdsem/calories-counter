@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import moment from 'moment';
 import uuid from 'uuid/v1';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 import Input from './Input';
 import Button from './Button';
@@ -15,10 +16,12 @@ class Counter extends Component {
         this.onCalInputChange = this.onCalInputChange.bind(this);
         this.onAddFoodItem = this.onAddFoodItem.bind(this);
         this.onRemoveFoodItem = this.onRemoveFoodItem.bind(this);
+        this.onDateInputChange = this.onDateInputChange.bind(this);
 
         this.state = {
             currentFoodInputValue: '',
             currentCaloriesInputValue: '',
+            currentDateValue: new Date(),
             foods: []
         };
     };
@@ -42,12 +45,17 @@ class Counter extends Component {
         this.setState({ currentCaloriesInputValue: e.target.value });
     }
 
+    onDateInputChange(date) {
+        this.setState({ currentDateValue: date });
+    }
+
     onAddFoodItem() {
         const newFoodItem = {
             text: `${this.state.currentFoodInputValue} - ${this.state.currentCaloriesInputValue} kcal`,
             calories: this.state.currentCaloriesInputValue,
             id: uuid(),
-            createdAt: moment(),
+            eatenAt: this.state.currentDateValue,
+            createdAt: new Date()
         }
 
         this.setState(prevState => {
@@ -83,6 +91,7 @@ class Counter extends Component {
     };
 
     render() {
+        console.log(this.state);
         return (
             <div className="counter">
                 <div className="counter__form">
@@ -103,6 +112,13 @@ class Counter extends Component {
                             value={this.state.currentCaloriesInputValue}
                             placeholder="nb of calories"
                             onChange={this.onCalInputChange}
+                        />
+                    </div>
+
+                    <div className="counter__input">
+                        <DatePicker
+                            selected={this.state.currentDateValue}
+                            onChange={this.onDateInputChange}
                         />
                     </div>
 
