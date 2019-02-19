@@ -8,7 +8,13 @@ const FoodsList = ({
         <div>
             <ul>
                 {foods.map(food => (
-                    <FoodListItem key={food.id} text={food.text} removeFoodItem={removeFoodItem} id={food.id} />
+                    <FoodListItem
+                        key={food.id}
+                        text={food.text}
+                        removeFoodItem={removeFoodItem}
+                        id={food.id}
+                        eatenAt={food.eatenAt}
+                    />
                 ))}
             </ul>
 

@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import { uniq } from 'lodash';
 import uuid from 'uuid/v1';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 import Input from './Input';
 import Button from './Button';
-import FoodsList from './FoodsList';
+import Days from './Days';
 
 
 class Counter extends Component {
@@ -15,10 +18,12 @@ class Counter extends Component {
         this.onCalInputChange = this.onCalInputChange.bind(this);
         this.onAddFoodItem = this.onAddFoodItem.bind(this);
         this.onRemoveFoodItem = this.onRemoveFoodItem.bind(this);
+        this.onDateInputChange = this.onDateInputChange.bind(this);
 
         this.state = {
             currentFoodInputValue: '',
             currentCaloriesInputValue: '',
+            currentDateValue: new Date(),
             foods: []
         };
     };
@@ -42,12 +47,17 @@ class Counter extends Component {
         this.setState({ currentCaloriesInputValue: e.target.value });
     }
 
+    onDateInputChange(date) {
+        this.setState({ currentDateValue: date });
+    }
+
     onAddFoodItem() {
         const newFoodItem = {
             text: `${this.state.currentFoodInputValue} - ${this.state.currentCaloriesInputValue} kcal`,
             calories: this.state.currentCaloriesInputValue,
             id: uuid(),
-            createdAt: moment(),
+            eatenAt: this.state.currentDateValue,
+            createdAt: new Date()
         }
 
         this.setState(prevState => {
@@ -83,6 +93,19 @@ class Counter extends Component {
     };
 
     render() {
+        // console.log(this.state);
+
+        // WAZNE!! (najpierw przygotowujemy dane, a potem na ich podstawie wyswietlamy je na ekranie):
+
+        const days = this.state.foods.map((food) => moment(food.eatenAt).format('DD MMM YYYY'));
+        const uniqDays = uniq(days);
+        const preparedDays = uniqDays.map((day) => ({
+            eatenAt: day,
+            foods: this.state.foods.filter((food) => moment(food.eatenAt).format('DD MMM YYYY') === day)
+        }))
+        console.log(uniqDays);
+        console.log(preparedDays);
+
         return (
             <div className="counter">
                 <div className="counter__form">
@@ -106,10 +129,21 @@ class Counter extends Component {
                         />
                     </div>
 
+                    <div className="counter__input">
+                        <DatePicker
+                            selected={this.state.currentDateValue}
+                            onChange={this.onDateInputChange}
+                        />
+                    </div>
+
                     <Button onClick={this.onAddFoodItem}>Add</Button>
                 </div>
 
-                <FoodsList foods={this.state.foods} removeFoodItem={this.onRemoveFoodItem} />
+                <Days preparedDays={preparedDays} removeFoodItem={this.onRemoveFoodItem} />
+
+                <p>
+                    {`${this.state.foods.reduce((acc, currentValue) => Number(acc) + Number(currentValue.calories), 0)} kcal`}
+                </p>
             </div>
         );
     }
